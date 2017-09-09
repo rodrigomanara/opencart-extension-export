@@ -18,6 +18,9 @@ class Installer {
         $root = self::getDir($path);
      
         copy($vendorDir .DIRECTORY_SEPARATOR. "rmanara".DIRECTORY_SEPARATOR."export".DIRECTORY_SEPARATOR."src".DIRECTORY_SEPARATOR."console", $root .DIRECTORY_SEPARATOR. "console");
+    
+        echo "file ready";
+        
     }
 
     /**
