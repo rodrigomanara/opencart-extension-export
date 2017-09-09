@@ -1,9 +1,13 @@
 <?php
+ 
 
-include_once __DIR__.'/../vendor/autoload.php';
+require_once __DIR__ .'./upload/system/storage/vendor/autoload.php';
+ 
 
 use Symfony\Component\Console\Application;
 
 $application = new Application();
-$application->add(new Rmanara\Export\CommandExport());
+$command = new Rmanara\Export\CommandExport();
+$command->__setpath(__DIR__);
+$application->add($command);
 $application->run();

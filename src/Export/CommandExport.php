@@ -10,6 +10,16 @@ use Symfony\Component\Finder\Finder;
 
 class CommandExport extends Command {
 
+    protected $path;
+
+    /**
+     * 
+     * @param type $path
+     */
+    public function __setPath($path) {
+        $this->path = $this->getDir($path);
+    }
+
     /**
      * configuration, setting the commands
      */
@@ -31,7 +41,8 @@ class CommandExport extends Command {
 
         $name = $input->getArgument('filename');
 
-        $dir = __DIR__ . "/../../../upload";
+        $dir = $this->path . DIRECTORY_SEPARATOR . "upload" . DIRECTORY_SEPARATOR;
+
 
 
         $finder = new Finder();
@@ -39,32 +50,53 @@ class CommandExport extends Command {
         $finder->files()->name("*$name*");
 
 
-        $output->writeln("===== start +++");
+        $output->writeln("<comment>===== start +++</comment>");
 
         $count = 0;
         foreach ($finder as $file) {
             $filename = $file->getfilename();
             $path = $file->getRelativePath();
-            if ($this->builder($path, $file->getRealPath(), $filename)) {
-                $output->writeln("file $filename was copied to $path");
+
+            if ($this->builder($path, $file->getRealPath(), $filename, $output)) {
+                $output->writeln("<info>file $filename was copied to $path</info>");
 
                 $count++;
             }
         }
-
-       
-
-        $output->writeln("===== end +++");
+        $output->writeln("<comment>===== end +++</comment>");
     }
-
-    private function Builder($path, $copy, $filename) {
-        $temp = __DIR__ . "/upload/" . $path;
+    /**
+     * 
+     * @param type $path
+     * @param type $copy
+     * @param type $filename
+     * @param OutputInterface $output
+     * @return type
+     */
+    private function Builder($path, $copy, $filename, OutputInterface $output) {
+        $temp = $this->path . "temp_extension" . DIRECTORY_SEPARATOR . "upload" . DIRECTORY_SEPARATOR . $path;
 
         if (!is_dir($temp)) {
-            mkdir($temp, 655, true);
+            if (mkdir($temp, 655, true)) {
+                $output->writeln("final path $temp");
+            }
         }
         $temp_path = $temp . DIRECTORY_SEPARATOR . $filename;
         return copy($copy, $temp_path);
+    }
+
+    /**
+     * 
+     * @param type $dir
+     * @return type
+     */
+    private function getDir($dir) {
+
+        preg_match("/(.*?)upload/", $dir, $matches);
+        if (isset($matches[1])) {
+            return $matches[1];
+        }
+        return $dir;
     }
 
 }
