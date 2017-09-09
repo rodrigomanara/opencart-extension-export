@@ -74,7 +74,7 @@ class CommandExport extends Command {
      * @return type
      */
     private function Builder($path, $copy, $filename, OutputInterface $output) {
-        $temp = $this->path . "temp_extension" . DIRECTORY_SEPARATOR . "upload" . DIRECTORY_SEPARATOR . $path;
+        $temp = $this->path . DIRECTORY_SEPARATOR. "temp_extension" . DIRECTORY_SEPARATOR . "upload" . DIRECTORY_SEPARATOR . $path;
 
         if (!is_dir($temp)) {
             if (mkdir($temp, 655, true)) {
