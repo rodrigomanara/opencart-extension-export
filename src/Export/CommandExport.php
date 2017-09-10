@@ -11,7 +11,7 @@ use Symfony\Component\Finder\Finder;
 class CommandExport extends Command {
 
     protected $path;
-
+    private $directory_count = 0, $file_count = 0;
     /**
      * 
      * @param type $path
@@ -40,31 +40,29 @@ class CommandExport extends Command {
     protected function execute(InputInterface $input, OutputInterface $output) {
 
         $name = $input->getArgument('filename');
-
         $dir = $this->path . DIRECTORY_SEPARATOR . "upload" . DIRECTORY_SEPARATOR;
-
-
 
         $finder = new Finder();
         $finder->files()->in($dir);
         $finder->files()->name("*$name*");
 
-
         $output->writeln("<comment>===== start +++</comment>");
 
-        $count = 0;
         foreach ($finder as $file) {
             $filename = $file->getfilename();
             $path = $file->getRelativePath();
 
             if ($this->builder($path, $file->getRealPath(), $filename, $output)) {
+                $this->file_count++;
                 $output->writeln("<info>file $filename was copied to $path</info>");
 
-                $count++;
             }
         }
+        $output->writeln("<comment>files copied = (". $this->file_count .")</comment>");
+        $output->writeln("<comment>directories created = (". $this->directory_count .")</comment>");
         $output->writeln("<comment>===== end +++</comment>");
     }
+
     /**
      * 
      * @param type $path
@@ -74,10 +72,11 @@ class CommandExport extends Command {
      * @return type
      */
     private function Builder($path, $copy, $filename, OutputInterface $output) {
-        $temp = $this->path . DIRECTORY_SEPARATOR. "temp_extension" . DIRECTORY_SEPARATOR . "upload" . DIRECTORY_SEPARATOR . $path;
+        $temp = $this->path . DIRECTORY_SEPARATOR . "temp_extension" . DIRECTORY_SEPARATOR . "upload" . DIRECTORY_SEPARATOR . $path;
 
         if (!is_dir($temp)) {
             if (mkdir($temp, 655, true)) {
+                $this->directory_count++;
                 $output->writeln("final path $temp");
             }
         }
