@@ -1,3 +1,9 @@
+[![Latest Stable Version](https://poser.pugx.org/rmanara/export/v/stable)](https://packagist.org/packages/rmanara/export)
+[![Total Downloads](https://poser.pugx.org/rmanara/export/downloads)](https://packagist.org/packages/rmanara/export)
+[![Latest Unstable Version](https://poser.pugx.org/rmanara/export/v/unstable)](https://packagist.org/packages/rmanara/export)
+[![License](https://poser.pugx.org/rmanara/export/license)](https://packagist.org/packages/rmanara/export)
+
+
 **Opencart Extension Export**
 
 this cli will help you find and compile all files that were create to build an extension for opencart
