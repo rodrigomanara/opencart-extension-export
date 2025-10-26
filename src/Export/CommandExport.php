@@ -10,11 +10,18 @@ use Symfony\Component\Finder\Finder;
 
 class CommandExport extends Command {
 
-    protected $path;
-    private $directory_count = 0, $file_count = 0;
     /**
-     * 
-     * @param type $path
+     * @var
+     */
+    protected $path;
+    /**
+     * @var int
+     */
+    private $directory_count = 0, $file_count = 0;
+
+    /**
+     * @param $path
+     * @return void
      */
     public function __setPath($path) {
         $this->path = $this->getDir($path);
@@ -64,12 +71,11 @@ class CommandExport extends Command {
     }
 
     /**
-     * 
-     * @param type $path
-     * @param type $copy
-     * @param type $filename
+     * @param $path
+     * @param $copy
+     * @param $filename
      * @param OutputInterface $output
-     * @return type
+     * @return bool
      */
     private function Builder($path, $copy, $filename, OutputInterface $output) {
         $temp = $this->path . DIRECTORY_SEPARATOR . "temp_extension" . DIRECTORY_SEPARATOR . "upload" . DIRECTORY_SEPARATOR . $path;
@@ -85,9 +91,8 @@ class CommandExport extends Command {
     }
 
     /**
-     * 
-     * @param type $dir
-     * @return type
+     * @param $dir
+     * @return string
      */
     private function getDir($dir) {
 
